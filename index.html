@@ -286,7 +286,8 @@
 
             try {
                 // Dirección de tu servidor Node.js
-                const response = await fetch('http://localhost:3000/submit-auditoria', {
+                // http://localhost:3000/submit-auditoria
+                const response = await fetch('https://auditoria-marca.vercel.app/submit-auditoria', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
