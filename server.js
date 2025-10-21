@@ -8,6 +8,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const nodemailer = require("nodemailer"); // <--- AHORA EN EL TOP-LEVEL
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -240,10 +241,9 @@ function analizarRecomendacion(respuestas) {
 // =================================================================
 
 app.get("/", (req, res) => {
-    // Aquí puedes enviar un mensaje simple o redirigir a tu frontend (index.html)
-     //res.sendFile()
-    // Pero si es solo el backend, un mensaje simple es suficiente para la prueba.
-    res.status(200).send("Servidor de Auditoría CÓDICE en funcionamiento. Usa la ruta /submit-auditoria para POSTear datos.");
+    // __dirname es la ruta actual del directorio. Aquí asumes que index.html está en la raíz.
+    // Usamos res.sendFile() para enviar el archivo HTML al navegador.
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post("/submit-auditoria", async (req, res) => {
