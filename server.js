@@ -241,7 +241,7 @@ function analizarRecomendacion(respuestas) {
 
 app.get("/", (req, res) => {
     // Aquí puedes enviar un mensaje simple o redirigir a tu frontend (index.html)
-     res.sendFile().
+     //res.sendFile()
     // Pero si es solo el backend, un mensaje simple es suficiente para la prueba.
     res.status(200).send("Servidor de Auditoría CÓDICE en funcionamiento. Usa la ruta /submit-auditoria para POSTear datos.");
 });
