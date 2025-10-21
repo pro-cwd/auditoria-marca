@@ -1,0 +1,7 @@
+# .gitignore
+
+# Ignora dependencias
+/node_modules
+
+# IGNORA EL ARCHIVO DE VARIABLES DE ENTORNO CON DATOS SENSIBLES
+.env

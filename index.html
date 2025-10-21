@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditoría de Presencia Digital CÓDICE</title>
+    <style>
+        /* CSS Básico y UX */
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        h1 { color: #007bff; text-align: center; }
+        .pregunta-card { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 6px; background-color: #fafafa; position: relative; }
+        .pregunta-card p { font-weight: bold; margin-top: 0; display: inline-block; margin-right: 10px; } /* Ajuste para el botón ? */
+        .opcion-grupo { display: flex; flex-direction: column; gap: 10px; }
+        .opcion-grupo label { cursor: pointer; padding: 8px; border: 1px solid #eee; border-radius: 4px; transition: background-color 0.2s; }
+        .opcion-grupo input[type="radio"]:checked + label { background-color: #e6f7ff; border-color: #b3d9ff; }
+        button { background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        button:hover { background-color: #1e7e34; }
+        .info-personal label { display: block; margin-top: 10px; font-weight: bold; }
+        .info-personal input[type="text"], .info-personal input[type="email"], .info-personal input[type="tel"], .info-personal input[type="number"] { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        
+        /* Estilos del Botón de Ayuda y Tooltip */
+        .help-button { 
+            display: inline-block; 
+            width: 20px; 
+            height: 20px; 
+            line-height: 20px; 
+            text-align: center; 
+            border-radius: 50%; 
+            background: #007bff; 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer;
+            font-size: 14px;
+            position: relative; /* Para posicionar el tooltip */
+        }
+        .help-button:hover { background: #0056b3; }
+
+        .tooltip {
+            visibility: hidden;
+            width: 300px;
+            background-color: #555;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Posiciona arriba del botón */
+            left: 50%;
+            margin-left: -150px; /* Centra el tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .help-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Leyenda de Obligatoriedad */
+        .obligatorio-leyenda {
+            color: #dc3545;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #dc3545;
+            border-radius: 4px;
+            background-color: #f8d7da;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Auditoría de Presencia Digital CÓDICE</h1>
+        <p>Este diagnóstico de 10 preguntas está diseñado para identificar brechas y oportunidades, alineando su negocio con uno de nuestros planes de servicio.</p>
+        
+        <div class="obligatorio-leyenda">
+            ⚠️ **Todas las preguntas de información personal y del cuestionario son obligatorias.**
+        </div>
+
+        <form id="auditoriaForm">
+            <div class="pregunta-card info-personal">
+                <h2>Datos del Solicitante</h2>
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="contacto">Teléfono/WhatsApp:</label>
+                <input type="tel" id="contacto" name="contacto" required>
+
+                <label for="email">Correo Electrónico (del solicitante):</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="edad">Edad de la Empresa (años):</label>
+                <input type="number" id="edad" name="edad" min="0" required>
+            </div>
+            
+            <h2>Cuestionario de Auditoría (10 Preguntas)</h2>
+            
+            <div class="pregunta-card">
+                <p>1. Identidad Digital / Web</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** La base de tu presencia online. ¿Tienes un sitio web funcional y de calidad?
+                        **Ejemplo:** Un sitio que carga rápido, se ve bien en móviles (responsive) y transmite confianza.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p1a" name="q1" value="a" required><label for="p1a">a) No tengo sitio web.</label>
+                    <input type="radio" id="p1b" name="q1" value="b"><label for="p1b">b) Sí, pero no está optimizado (lento, sin diseño responsive, desactualizado).</label>
+                    <input type="radio" id="p1c" name="q1" value="c"><label for="p1c">c) Sí, está activo y funciona bien (es rápido, moderno, adaptable).</label>
+                </div>
+            </div>
+
+            <div class="pregunta-card">
+                <p>2. Estrategia y Objetivos</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Tener un plan documentado que guía todas tus acciones digitales.
+                        **Ejemplo:** Conocer tu *Buyer Persona*, definir *KPIs* específicos y entender tu *Embudo de Conversión*.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p2a" name="q2" value="a" required><label for="p2a">a) No, solo publicamos esporádicamente.</label>
+                    <input type="radio" id="p2b" name="q2" value="b"><label for="p2b">b) Tenemos objetivos vagos, pero no KPIs o funnels definidos.</label>
+                    <input type="radio" id="p2c" name="q2" value="c"><label for="p2c">c) Sí, tenemos una estrategia clara con métricas definidas y alineadas al negocio.</label>
+                </div>
+            </div>
+
+            <div class="pregunta-card">
+                <p>3. Posicionamiento Orgánico (SEO)</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Acciones para aparecer en los primeros resultados de Google de forma gratuita.
+                        **Ejemplo:** Optimizar títulos, obtener enlaces de calidad (*link building*) y mejorar la velocidad de carga (SEO Técnico).
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p3a" name="q3" value="a" required><label for="p3a">a) No sé qué es SEO o no lo hacemos.</label>
+                    <input type="radio" id="p3b" name="q3" value="b"><label for="p3b">b) Hacemos cosas básicas (ej. optimizar un título) pero sin estrategia integral (link building, técnica).</label>
+                    <input type="radio" id="p3c" name="q3" value="c"><label for="p3c">c) Sí, implementamos auditorías regulares, optimización on-page, off-page y técnica.</label>
+                </div>
+            </div>
+
+            <div class="pregunta-card">
+                <p>4. Publicidad Pagada (PPC/Ads)</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Usar plataformas como Google Ads o Meta Ads para generar resultados medibles.
+                        **Ejemplo:** Campañas orientadas a la venta con gestión del retorno de la inversión (*ROI/ROAS*) y embudos avanzados.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p4a" name="q4" value="a" required><label for="p4a">a) No utilizamos publicidad pagada.</label>
+                    <input type="radio" id="p4b" name="q4" value="b"><label for="p4b">b) Sí, campañas básicas para generar likes/mensajes directos, pero sin análisis de ROI/ROAS.</label>
+                    <input type="radio" id="p4c" name="q4" value="c"><label for="p4c">c) Sí, gestionamos campañas complejas con funnels de venta avanzados y retargeting medido.</label>
+                </div>
+            </div>
+            
+            <div class="pregunta-card">
+                <p>5. Generación de Leads</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Tener un sistema para capturar los datos de clientes potenciales y darles seguimiento.
+                        **Ejemplo:** Usar un CRM, automatización por email marketing o funnels de conversión específicos.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p5a" name="q5" value="a" required><label for="p5a">a) Los leads se quedan en la bandeja de entrada o WhatsApp.</label>
+                    <input type="radio" id="p5b" name="q5" value="b"><label for="p5b">b) Usamos un CRM o herramienta básica, pero no hay automatización de marketing.</label>
+                    <input type="radio" id="p5c" name="q5" value="c"><label for="p5c">c) Sí, tenemos funnels automatizados (Email Marketing, Retargeting) y un CRM integrado.</label>
+                </div>
+            </div>
+            
+            <div class="pregunta-card">
+                <p>6. Gestión de Redes Sociales</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** El manejo profesional y estratégico de tus perfiles sociales (Meta, TikTok, LinkedIn, etc.).
+                        **Ejemplo:** Contenido planificado, diseño de marca coherente, interacción activa y publicaciones en múltiples formatos (video).
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p6a" name="q6" value="a" required><label for="p6a">a) Publicaciones irregulares sin diseño profesional ni interacción activa con la comunidad.</label>
+                    <input type="radio" id="p6b" name="q6" value="b"><label for="p6b">b) Publicaciones regulares y diseño gráfico aceptable, con gestión básica de la comunidad.</label>
+                    <input type="radio" id="p6c" name="q6" value="c"><label for="p6c">c) Gestión multicanal avanzada, con diseño profesional, contenido rico (video, micro-videos) y tono coherente de marca.</label>
+                </div>
+            </div>
+
+            <div class="pregunta-card">
+                <p>7. Contenido Estratégico</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Crear contenido (blogs, videos, guías) basado en las necesidades de la audiencia y la búsqueda orgánica.
+                        **Ejemplo:** Un plan de contenidos mensual donde cada pieza responde a una palabra clave específica (*SEO*) y a una etapa del embudo de venta.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p7a" name="q7" value="a" required><label for="p7a">a) No, solo publicamos sobre nuestros productos/servicios.</label>
+                    <input type="radio" id="p7b" name="q7" value="b"><label for="p7b">b) A veces, pero no hay un plan de contenidos mensual o trimestral estratégico.</label>
+                    <input type="radio" id="p7c" name="q7" value="c"><label for="p7c">c) Sí, todo el contenido está planificado, optimizado para SEO y diseñado para cada etapa del embudo.</label>
+                </div>
+            </div>
+            
+            <div class="pregunta-card">
+                <p>8. Analítica Web</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Usar herramientas para medir el rendimiento de tu web y campañas, y tomar decisiones basadas en datos.
+                        **Ejemplo:** Usar Google Analytics 4 (GA4), Search Console o herramientas de análisis de la competencia (Semrush, Ahrefs) para crear reportes con acciones claras.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p8a" name="q8" value="a" required><label for="p8a">a) No usamos ninguna herramienta o solo miramos las métricas de likes.</label>
+                    <input type="radio" id="p8b" name="q8" value="b"><label for="p8b">b) Sí, tenemos Google Analytics instalado, pero no generamos reportes con conclusiones accionables.</label>
+                    <input type="radio" id="p8c" name="q8" value="c"><label for="p8c">c) Sí, hacemos seguimiento detallado, análisis de la competencia y reportes mensuales con estrategias de mejora (CRO).</label>
+                </div>
+            </div>
+
+            <div class="pregunta-card">
+                <p>9. Optimización de Conversión (CRO)</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Realizar mejoras en tu web o páginas de destino para aumentar el porcentaje de visitantes que realizan una acción deseada (ej. comprar o llenar un formulario).
+                        **Ejemplo:** Implementar pruebas A/B de diseño de botones o textos para maximizar la tasa de conversión.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p9a" name="q9" value="a" required><label for="p9a">a) No, la web es estática.</label>
+                    <input type="radio" id="p9b" name="q9" value="b"><label for="p9b">b) Hemos hecho cambios puntuales, pero no hay una estrategia de mejora continua basada en datos.</label>
+                    <input type="radio" id="p9c" name="q9" value="c"><label for="p9c">c) Sí, implementamos pruebas A/B y mejoras continuas para maximizar la conversión.</label>
+                </div>
+            </div>
+
+            <div class="pregunta-card">
+                <p>10. Consultoría y Soporte</p>
+                <span class="help-button">?
+                    <span class="tooltip">
+                        **Descripción:** Necesidad de sesiones estratégicas y de alto nivel con directivos de la empresa para alinear el marketing con los objetivos de negocio.
+                        **Ejemplo:** Reuniones mensuales para revisar los KPIs y ajustar la estrategia digital global.
+                    </span>
+                </span>
+                <div class="opcion-grupo">
+                    <input type="radio" id="p10a" name="q10" value="a" required><label for="p10a">a) No, solo necesito ejecución básica.</label>
+                    <input type="radio" id="p10b" name="q10" value="b"><label for="p10b">b) Podría ser útil.</label>
+                    <input type="radio" id="p10c" name="q10" value="c"><label for="p10c">c) Sí, es fundamental para la dirección estratégica del negocio.</label>
+                </div>
+            </div>
+
+            <button type="submit">Obtener mi Recomendación de Plan CÓDICE</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('auditoriaForm').addEventListener('submit', async function(event) {
+            // La validación HTML5 de 'required' en los inputs de texto/email y radio buttons 
+            // generalmente impide el envío si faltan campos. 
+            // Agregamos esta línea para asegurarnos de que el navegador maneje la validación.
+            if (!event.target.checkValidity()) {
+                // Si la validación falla, el navegador muestra sus mensajes predeterminados.
+                return; 
+            }
+            
+            event.preventDefault(); // Evita el envío tradicional si la validación es exitosa
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = {};
+
+            // Convierte los datos del formulario a un objeto JSON
+            formData.forEach((value, key) => data[key] = value);
+
+            try {
+                // Dirección de tu servidor Node.js
+                const response = await fetch('http://localhost:3000/submit-auditoria', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('¡Formulario enviado con éxito! Nos pondremos en contacto contigo pronto con el diagnóstico.');
+                    form.reset();
+                } else {
+                    alert('Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                alert('Hubo un problema de conexión. Por favor, verifica la consola para detalles.');
+            }
+        });
+    </script>
+</body>
+</html>
