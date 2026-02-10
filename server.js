@@ -107,33 +107,52 @@ const preguntasMapa = {
 };
 // Función para formatear los datos de las respuestas en texto legible (MODIFICADA)
 function formatarRespuestasParaAdmin(data) {
-  let respuestasFormateadas = "";
+  let respuestasFormateadas = `
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; background-color: #ffffff;">
+  `;
 
   for (let i = 1; i <= 10; i++) {
     const qKey = `q${i}`;
-    const respuestaLetra = data[qKey] || "N/A"; // Obtiene la letra (a, b, c)
-
-    // Intenta obtener el texto completo de la respuesta
-    // Usa el mapa (preguntasMapa) para encontrar el texto de la opción.
-    const preguntaTitulo =
-      preguntasMapa[qKey] || `Pregunta #${i} (Título no encontrado)`;
+    const respuestaLetra = data[qKey] || "N/A";
+    const preguntaTitulo = preguntasMapa[qKey] || `Pregunta #${i}`;
     const respuestaTexto = preguntasMapa.opciones[qKey]
       ? preguntasMapa.opciones[qKey][respuestaLetra]
-      : `Respuesta (Letra: ${respuestaLetra.toUpperCase()})`;
+      : `Opción ${respuestaLetra.toUpperCase()}`;
 
-    // Formato para el correo del administrador
+    // Estilo condicional para resaltar respuestas 'c' (las mejores) o 'a' (dolores fuertes)
+    const colorRespuesta = respuestaLetra === 'c' ? '#059669' : (respuestaLetra === 'a' ? '#FF1053' : '#1d519f');
+    const bgRespuesta = respuestaLetra === 'c' ? '#ecfdf5' : (respuestaLetra === 'a' ? '#fff1f2' : '#f0f7ff');
+
     respuestasFormateadas += `
-            <p style="margin-bottom: 5px;">
-                <strong>${preguntaTitulo}:</strong>
-            </p>
-            <p style="margin-top: 0; padding-left: 20px; color: #007bff;">
-                &rarr; **Opción Seleccionada:** ${respuestaTexto} 
-                <span style="font-weight: bold; color: #555;">(${respuestaLetra.toUpperCase()})</span>
-            </p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-        `;
+      <tr>
+        <td style="padding: 15px; border-bottom: 1px solid #f1f5f9;">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td style="font-family: Arial, sans-serif; font-size: 14px; color: #64748b; font-weight: bold; padding-bottom: 5px;">
+                ${preguntaTitulo}
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: ${bgRespuesta}; border-left: 4px solid ${colorRespuesta}; padding: 12px 15px; border-radius: 4px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td style="font-family: Arial, sans-serif; font-size: 15px; color: ${colorRespuesta}; font-weight: 600;">
+                      <span style="background-color: ${colorRespuesta}; color: #ffffff; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 10px;">
+                        ${respuestaLetra.toUpperCase()}
+                      </span>
+                      ${respuestaTexto}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    `;
   }
 
+  respuestasFormateadas += `</table>`;
   return respuestasFormateadas;
 }
 
@@ -241,9 +260,9 @@ function analizarRecomendacion(respuestas) {
 // =================================================================
 
 app.get("/", (req, res) => {
-    // __dirname es la ruta actual del directorio. Aquí asumes que index.html está en la raíz.
-    // Usamos res.sendFile() para enviar el archivo HTML al navegador.
-    res.sendFile(path.join(__dirname, 'index.html'));
+  // __dirname es la ruta actual del directorio. Aquí asumes que index.html está en la raíz.
+  // Usamos res.sendFile() para enviar el archivo HTML al navegador.
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post("/submit-auditoria", async (req, res) => {
@@ -262,51 +281,114 @@ app.post("/submit-auditoria", async (req, res) => {
 
   // --- CORREO 1: Para el CLIENTE (¡AGREGANDO EL CUERPO HTML!) ---
   const mailOptionsCliente = {
-    from: '"Auditoría CÓDICE" <' + process.env.EMAIL_USER + ">",
+    from: '"Códice Mkt + Tech" <' + process.env.EMAIL_USER + ">",
     to: emailUsuario,
-    subject: `✅ ¡Tu Auditoría Digital CÓDICE ha sido completada, ${data.nombre}!`,
-    // =========================================================
-    // AÑADIENDO EL CUERPO HTML COMPLETO DEL CLIENTE AQUÍ
-    // =========================================================
+    subject: `✅ Diagnóstico Digital Finalizado: ${data.nombre}`,
     html: `
-            <h2>Diagnóstico de Presencia Digital</h2>
-            <p>Hola ${data.nombre},</p>
-            <p>Hemos procesado tu auditoría y aquí está un resumen de la recomendación de plan basada en tus respuestas:</p>
-            <div style="border: 1px solid #007bff; padding: 15px; border-radius: 5px; background-color: #e6f7ff;">
-                <h3>🎯 Recomendación: ${recomendacion.plan} (${recomendacion.costo})</h3>
-            </div>
-            <p><strong>Justificación:</strong> ${recomendacion.justificacion}</p>
-            <p>Un asesor se pondrá en contacto contigo en las próximas 24 horas a través de ${data.contacto} o este email para profundizar en tu diagnóstico.</p>
-            <p>Gracias por confiar en CÓDICE.</p>
-            <hr>
-            <small>Este es un mensaje automatizado. Por favor, no respondas a este correo.</small>
-        `,
+      <div style="background-color: #f6f7f8; padding: 30px 10px; font-family: 'Segoe UI', Arial, sans-serif;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          
+          <tr>
+            <td style="padding: 30px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+              <table align="center" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td bgcolor="#1d519f" style="border-radius: 6px; padding: 8px 12px; color: #ffffff; font-weight: bold; font-size: 20px;">C</td>
+                  <td style="padding-left: 10px; font-size: 20px; font-weight: 800; color: #1d519f; letter-spacing: 2px;">CÓDICE</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding: 40px 50px;">
+              <h1 style="color: #0f172a; font-size: 24px; margin: 0 0 15px 0;">¡Hola, ${data.nombre}!</h1>
+              <p style="color: #475569; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+                Gracias por completar nuestra <strong>Auditoría de Presencia Digital</strong>. Nuestro sistema ha analizado tus respuestas sobre el ecosistema de <strong>${data.company_name || 'tu empresa'}</strong> y este es el camino estratégico que recomendamos para tu escalabilidad técnica:
+              </p>
+
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#f0f7ff" style="border-radius: 8px; border: 1px solid #1d519f; margin-bottom: 30px;">
+                <tr>
+                  <td style="padding: 25px; text-align: center;">
+                    <div style="color: #1d519f; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Estrategia Sugerida</div>
+                    <div style="color: #1d519f; font-size: 24px; font-weight: 800; margin-bottom: 5px;">${recomendacion.plan}</div>
+                    <div style="color: #1d519f; font-size: 16px; opacity: 0.8;">Inversión estimada: ${recomendacion.costo}</div>
+                  </td>
+                </tr>
+              </table>
+
+              <h3 style="color: #0f172a; font-size: 18px; margin-bottom: 10px;">¿Por qué este plan?</h3>
+              <p style="color: #64748b; font-size: 15px; line-height: 1.6; margin-bottom: 30px; border-left: 3px solid #FF1053; padding-left: 15px;">
+                ${recomendacion.justificacion}
+              </p>
+
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #121820; border-radius: 8px; margin-bottom: 30px;">
+                <tr>
+                  <td style="padding: 25px; text-align: center;">
+                    <p style="color: #ffffff; font-size: 15px; margin-bottom: 20px;">Un consultor senior revisará tu caso para presentarte una hoja de ruta detallada en las próximas 24 horas.</p>
+                    <a href="https://wa.me/TU_NUMERO" style="background-color: #25D366; color: #ffffff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">HABLAR CON UN EXPERTO</a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="color: #475569; font-size: 14px; text-align: center;">
+                Atentamente,<br>
+                <strong>El equipo de Códice Mkt + Tech</strong>
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td bgcolor="#f8fafc" style="padding: 20px; text-align: center; border-top: 1px solid #f1f5f9;">
+              <p style="color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
+                © 2026 Códice Tecnología & Desarrollo S.A.S
+              </p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    `
   };
 
   // --- CORREO 2: Para el ADMINISTRADOR (MODIFICADO) ---
   const mailOptionsAdmin = {
-    from: '"Notificación CÓDICE Server" <' + process.env.EMAIL_USER + ">",
+    from: '"Códice Intelligence" <' + process.env.EMAIL_USER + ">",
     to: process.env.EMAIL_USER,
-    subject: `🚨 NUEVA AUDITORÍA CÓDICE: ${data.nombre} (${recomendacion.plan})`,
+    subject: `🚨 LEAD CALIFICADO: ${data.nombre} - ${recomendacion.plan}`,
     html: `
-            <h2>Nueva Solicitud de Auditoría Recibida</h2>
-            <p><strong>De:</strong> ${data.nombre}</p>
-            <p><strong>Contacto:</strong> ${data.contacto}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Edad de la Empresa (años):</strong> ${data.edad}</p>
-            <hr>
-            <h3>Recomendación Calculada: ${recomendacion.plan}</h3>
-            
-            <p><strong>Justificación del Plan:</strong> ${
-              recomendacion.justificacion
-            }</p>
-            
-            <hr>
-            <h4>Respuestas Detalladas del Cliente:</h4>
-            ${formatarRespuestasParaAdmin(data)} 
-            
-            <p>Favor de contactar para iniciar la venta.</p>
-        `,
+      <div style="background-color: #f6f7f8; padding: 20px; font-family: Arial, sans-serif;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+          <tr>
+            <td bgcolor="#121820" style="padding: 20px; text-align: center;">
+              <span style="color: #ffffff; font-size: 20px; font-weight: bold; letter-spacing: 2px;">CÓDICE AUDIT REPORT</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px;">
+              <h2 style="color: #1d519f; margin-top: 0;">Datos del Prospecto</h2>
+              <table width="100%" style="margin-bottom: 20px; font-size: 14px; color: #475569;">
+                <tr><td style="padding: 5px 0;"><strong>Nombre:</strong> ${data.nombre}</td></tr>
+                <tr><td style="padding: 5px 0;"><strong>Email:</strong> ${data.email}</td></tr>
+                <tr><td style="padding: 5px 0;"><strong>WhatsApp/Telf:</strong> ${data.contacto}</td></tr>
+                <tr><td style="padding: 5px 0;"><strong>Antigüedad Empresa:</strong> ${data.edad} años</td></tr>
+              </table>
+              
+              <div style="background-color: #FF1053; color: #ffffff; padding: 15px; border-radius: 6px; text-align: center; margin-bottom: 30px;">
+                <div style="font-size: 12px; text-transform: uppercase; opacity: 0.9;">Plan Recomendado</div>
+                <div style="font-size: 22px; font-weight: bold;">${recomendacion.plan}</div>
+                <div style="font-size: 14px; margin-top: 5px;">Inversión estimada: ${recomendacion.costo}</div>
+              </div>
+
+              <h3 style="color: #1d519f; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">Análisis de Respuestas</h3>
+              ${formatarRespuestasParaAdmin(data)}
+              
+              <div style="margin-top: 30px; padding: 20px; background-color: #f8fafc; border-radius: 6px; font-size: 13px; color: #64748b; line-height: 1.5;">
+                <strong>Nota Comercial:</strong> Este cliente ha sido calificado automáticamente. Basado en el volumen de respuestas "A", se recomienda priorizar el discurso sobre <b>Eficiencia Operativa</b> y <b>Recuperación de ROI</b>.
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    `,
   };
 
   // 2. Enviar los correos y manejar errores
