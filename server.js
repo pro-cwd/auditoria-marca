@@ -292,8 +292,7 @@ app.post("/submit-auditoria", async (req, res) => {
             <td style="padding: 30px; text-align: center; border-bottom: 1px solid #f1f5f9;">
               <table align="center" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td bgcolor="#1d519f" style="border-radius: 6px; padding: 8px 12px; color: #ffffff; font-weight: bold; font-size: 20px;">C</td>
-                  <td style="padding-left: 10px; font-size: 20px; font-weight: 800; color: #1d519f; letter-spacing: 2px;">CÓDICE</td>
+                  <img src="./img/logotipo_codice.webp" alt="Códice Logo" width="120" style="display: block; margin: 0 auto 10px auto;" />
                 </tr>
               </table>
             </td>
@@ -325,7 +324,7 @@ app.post("/submit-auditoria", async (req, res) => {
                 <tr>
                   <td style="padding: 25px; text-align: center;">
                     <p style="color: #ffffff; font-size: 15px; margin-bottom: 20px;">Un consultor senior revisará tu caso para presentarte una hoja de ruta detallada en las próximas 24 horas.</p>
-                    <a href="https://wa.me/TU_NUMERO" style="background-color: #25D366; color: #ffffff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">HABLAR CON UN EXPERTO</a>
+                    <a href="https://wa.me/59390904105" style="background-color: #25D366; color: #ffffff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">HABLAR CON UN EXPERTO</a>
                   </td>
                 </tr>
               </table>
