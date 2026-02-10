@@ -211,7 +211,7 @@ function analizarRecomendacion(respuestas) {
   const totalC = respuestasC.length;
 
   let recomendacion = {
-    plan: "CÓDICE ESTRATÉGICO",
+    plan: "Plan Marketing Pro",
     costo: "$650 USD/mes",
     justificacion:
       "Su negocio opera con un nivel de madurez alto y requiere una optimización avanzada, análisis de competencia detallado y la participación directa de consultoría estratégica.",
@@ -219,14 +219,14 @@ function analizarRecomendacion(respuestas) {
 
   if (totalA >= 4 || (totalA + totalB > totalC && totalC <= 2)) {
     recomendacion = {
-      plan: "CÓDICE STARTER",
+      plan: "Plan Marketing Starter",
       costo: "$350 USD/mes",
       justificacion:
         "Foco Principal: Su negocio necesita establecer una base sólida de generación de leads y una gestión social profesional mínima para adquirir presencia.",
     };
   } else if (totalB >= 5 || (totalC > totalA && totalC < totalB)) {
     recomendacion = {
-      plan: "CÓDICE IMPULSO",
+      plan: "Plan Marketing Growth",
       costo: "$490 USD/mes",
       justificacion:
         "Foco Principal: Su negocio ya tiene una presencia o necesita desarrollarla desde un enfoque 360, requiriendo estrategia SEO/SEM, desarrollo web y contenido rico.",
