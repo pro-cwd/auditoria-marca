@@ -292,7 +292,7 @@ app.post("/submit-auditoria", async (req, res) => {
             <td style="padding: 30px; text-align: center; border-bottom: 1px solid #f1f5f9;">
               <table align="center" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <img src="./img/logotipo_codice.webp" alt="Códice Logo" width="120" style="display: block; margin: 0 auto 10px auto;" />
+                  <img src="./img/mail/logotipo_codice.webp" alt="Códice Logo" width="120" style="display: block; margin: 0 auto 10px auto;" />
                 </tr>
               </table>
             </td>
