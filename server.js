@@ -292,7 +292,7 @@ app.post("/submit-auditoria", async (req, res) => {
             <td style="padding: 30px; text-align: center; border-bottom: 1px solid #f1f5f9;">
               <table align="center" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <img src="./img/mail/logotipo_codice.webp" alt="Códice Logo" width="120" style="display: block; margin: 0 auto 10px auto;" />
+                  <img src="https://www.codicewd.com/img/mail/logotipo_codice.webp" alt="Códice Logo" width="120" style="display: block; margin: 0 auto 10px auto;" />
                 </tr>
               </table>
             </td>
@@ -339,7 +339,7 @@ app.post("/submit-auditoria", async (req, res) => {
           <tr>
             <td bgcolor="#f8fafc" style="padding: 20px; text-align: center; border-top: 1px solid #f1f5f9;">
               <p style="color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
-                © 2026 Códice Tecnología & Desarrollo S.A.S
+                © 2026 Códice Human-Tech = Personas + tecnoliga
               </p>
             </td>
           </tr>
